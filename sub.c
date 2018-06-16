@@ -32,7 +32,13 @@ int main(int argc, char *argv[]) {
     zmsg_t *msg = zmsg_recv(reader);
     assert(msg);
     char *string = zmsg_popstr(msg);
-    fprintf(fout, "%s", string);
+    for (size_t i = 0; i < strlen(string); i++) {
+      fputc(string[i], fout);
+      if (string[i] == '\n') {
+        fputc('\r', fout);
+      }
+    }
+//    fprintf(fout, "%s", string);
     if (fout != stdout) {
       fprintf(stderr, "%s", string);
       fflush(stderr);
